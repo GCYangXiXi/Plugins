@@ -1,12 +1,15 @@
 <?php
 
 /**
- * 操作mysql数据库类,具有连接,增删改查,显示sql语句等功能
+ * 操作mysql数据库类,具有连接,基本增删改查,显示sql语句等功能
  */
 class DB {
 
     private $_conn; //保存连接成功后返回的mysql连接标识符
     private $_sql; //保存sql语句
+    private $_tablePre; //表前缀
+    private $_tableName; //数据表名称
+    private $_coding; //字符集编码
     private static $_instance = null; //保存实例
 
     /**
@@ -17,11 +20,13 @@ class DB {
      * @param string $dbname  数据库名称
      */
 
-    private function __construct($host, $username, $password, $dbname)
+    private function __construct($host, $username, $password, $dbname, $tablePre, $coding)
     {
+        $this->_tablePre = $tablePre;
+        $this->_coding = $coding;
         $this->_conn = @mysql_connect($host, $username, $password) or die('数据库连接失败：' . mysql_error());
-        mysql_select_db($dbname, $this->_conn) or die('数据库连接失败：' . mysql_error());
-        mysql_query('set names utf8', $this->_conn);
+        mysql_select_db($dbname, $this->_conn) or die('数据库选择失败：' . mysql_error());
+        mysql_query('set names ' . $this->_coding, $this->_conn);
     }
 
     /**
@@ -38,11 +43,11 @@ class DB {
      * @param string $username  数据库用户名
      * @param string $password  数据库密码
      * @param string $dbname  数据库名称
-     * @return object 该数据库实例
+     * @return object 返回该数据库实例
      */
-    public static function getInstance($host, $username, $password, $dbname)
+    public static function getInstance($host, $username, $password, $dbname, $tablePre = '', $coding = 'utf8')
     {
-        is_null(self::$_instance) && self::$_instance = new self($host, $username, $password, $dbname);
+        is_null(self::$_instance) && self::$_instance = new self($host, $username, $password, $dbname, $tablePre = '', $coding = 'utf8');
         return self::$_instance;
     }
 
@@ -51,7 +56,7 @@ class DB {
      * @param string $table 数据表名称
      * @param array $condition 查询条件
      * @param array $field 查询字段
-     * @return array 查询结果
+     * @return array 返回查询结果
      */
     public function select($table, $condition = array(), $field = array())
     {
@@ -77,7 +82,8 @@ class DB {
         {
             $fieldstr = '*';
         }
-        $this->_sql = "select {$fieldstr} from {$table} {$where}";
+        $this->getTableName($table);
+        $this->_sql = "select {$fieldstr} from {$this->_tableName} {$where}";
         $result = mysql_query($this->_sql, $this->_conn);
         $resuleRow = array();
         $i = 0;
@@ -96,7 +102,7 @@ class DB {
      * 插入记录
      * @param string  $table    数据表名称
      * @param array $data   要插入的数据
-     * @return int/boolean  成功时返回影响记录的id,失败时返回false
+     * @return int  成功时返回影响记录的id,失败时返回0
      */
     public function insert($table, $data)
     {
@@ -109,13 +115,10 @@ class DB {
         }
         $values = rtrim($values, ',');
         $datas = rtrim($datas, ',');
-        $this->_sql = "INSERT INTO  {$table} ({$values}) VALUES ({$datas})";
-//        return $this->_sql;
-        if (mysql_query($this->_sql))
-        {
-            return mysql_insert_id();
-        }
-        return false;
+        $this->getTableName($table);
+        $this->_sql = "INSERT INTO  {$this->_tableName} ({$values}) VALUES ({$datas})";
+        mysql_query($this->_sql, $this->_conn);
+        return mysql_insert_id();
     }
 
     /**
@@ -146,15 +149,17 @@ class DB {
             }
             $updatastr = 'set ' . rtrim($updatastr, ',');
         }
-        $this->_sql = "update {$table} {$updatastr} {$where}";
-        return mysql_query($this->_sql);
+        $this->getTableName($table);
+        $this->_sql = "update {$this->_tableName} {$updatastr} {$where}";
+        mysql_query($this->_sql, $this->_conn);
+        return mysql_affected_rows();
     }
 
     /**
      * 删除记录
      * @param string $table     数据表名称
      * @param array $condition      条件
-     * @return boolean  成功时返回true,失败时返回false
+     * @return int 返回影响行数
      */
     public function delete($table, $condition)
     {
@@ -168,8 +173,10 @@ class DB {
             }
             $where = 'where ' . $where . '1=1';
         }
-        $this->_sql = "delete from {$table} {$where}";
-        return mysql_query($this->_sql);
+        $this->getTableName($table);
+        $this->_sql = "delete from {$this->_tableName} {$where}";
+        mysql_query($this->_sql, $this->_conn);
+        return mysql_affected_rows();
     }
 
     /**
@@ -181,15 +188,24 @@ class DB {
         return $this->_sql;
     }
 
+    /**
+     * 获取完整数据表名称
+     * @param string $tableName 
+     */
+    private function getTableName($tableName)
+    {
+        $this->_tableName = $tableName . $this->_tablePre;
+    }
+
 }
 
 $db = DB::getInstance('127.0.0.1', 'root', '', 'ahhedi');
-//$list = $db->select('demo',array('name'=>'tom','password'=>'ds'),array('name','password'));  
-//echo $db->insert('demo',array('name'=>'最近你啦','password'=>'123'));  
-//echo $db->update('demo',array("name"=>'xxx',"password"=>'123'),array('id'=>1));  
-//echo $db->delete('demo', array('id' => '2'));
-//db::getLastSql();
-//echo "<pre>";
-//var_dump($db->select('admin'));
-$db->insert('banner', array('type' => 6, 'name' => 'banner', 'url' => '/', 'pic' => '/', 'add_time' => time(), 'visible' => 1));
+if ($db->delete('message', array('id' => 1)))
+{
+    echo '成功';
+}
+else
+{
+    echo '失败';
+}
 echo $db->getLastSql();
