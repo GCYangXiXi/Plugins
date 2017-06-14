@@ -33,7 +33,7 @@ function Ajax(data) {
 }
 function chkUserName(obj) {
     if (checks(obj.value) == false)
-    {
+    {                                                                                                                                                                                       f
         obj.className = "FrameDivWarn";
         showInfo("username_notice", msg_un_format);
         change_submit("true");

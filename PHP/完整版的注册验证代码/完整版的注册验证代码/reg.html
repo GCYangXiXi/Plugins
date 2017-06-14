@@ -1,8 +1,8 @@
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Ajax用户注册验</title>
-        <link href="style.css" rel="stylesheet" type="text/css">
+        <link href="style.css" rel="stylesheet" type="text/css" />
         <script language="JavaScript" type="text/javascript" src="from_ck.js"></script>
     </head>
     <body>
@@ -11,77 +11,83 @@
             <form name="formUser" onSubmit="return register();" action='user_ck.php' method='post'>
                 <br />
                 <table width="100%" align=center border=0>
-                    <TBODY>
-                        <TR>
-                            <TD align=right width="15%"><STRONG>用户名:</STRONG></TD>
-                            <TD width="57%"><INPUT id="username" onBlur="chkUserName(this)" 
-                                                   name="username">
-                                <SPAN id="username_notice" >*</SPAN></TD>
-                        </TR>
-                        <TR>
-                            <TD align=right><STRONG>email:</STRONG></TD>
-                            <TD><INPUT id="email" onBlur="checkEmail(this)" name="email">
-                                <SPAN id=email_notice >*</SPAN></TD>
-                        </TR>
-                        <TR>
-                            <TD align=right><STRONG>密码:</STRONG></TD>
-                            <TD><INPUT id="password" onblur="check_password(this)" 
-                                       onkeyup="checkIntensity(this.value)" type="password" name="password">
-                                <SPAN 
-                                    id=password_notice >*</SPAN></TD>
-                        </TR>
-                        <TR>
-                            <TD align=right><STRONG>密码强度:</STRONG></TD>
-                            <TD><TABLE cellSpacing=0 cellPadding=1 width=145 border=0>
-                                    <TBODY>
-                                        <TR align=middle>
-                                            <TD id=pwd_lower width="33%">弱</TD>
-                                            <TD id=pwd_middle width="33%">中</TD>
-                                            <TD id=pwd_high width="33%">强</TD>
-                                        </TR>
-                                    </TBODY>
-                                </TABLE></TD>
-                        </TR>
-                        <TR>
-                            <TD align=right><STRONG>确认密码:</STRONG></TD>
-                            <TD><INPUT id="conform_password" onblur="check_conform_password(this)" 
-                                       type="password" name="confirm_password">
-                                <SPAN id=conform_password_notice >*</SPAN></TD>
-                        </TR>
-                        <TR>
-                            <TD align=right><STRONG>MSN:</STRONG></TD>
-                            <TD><INPUT name=other[msn]>        </TD>
-                        </TR>
-                        <TR>
-                            <TD align=right><STRONG>QQ:</STRONG></TD>
-                            <TD><INPUT name=other[qq]>        </TD>
-                        </TR>
-                        <TR>
-                            <TD align=right><STRONG>办公电话:</STRONG></TD>
-                            <TD><INPUT name=other[office_phone]>        </TD>
-                        </TR>
-                        <TR>
-                            <TD align=right><STRONG>家庭电话:</STRONG></TD>
-                            <TD><INPUT name=other[home_phone]>        </TD>
-                        </TR>
-                        <TR>
-                            <TD align=right><STRONG>手机:</STRONG></TD>
-                            <TD><INPUT name=other[mobile_phone]>        </TD>
-                        </TR>
-                        <TR>
-                            <TD>&nbsp;</TD>
-                            <TD><LABEL>
-                                    <INPUT type="checkbox" CHECKED value="1" name="agreement" onblur="check_agreement(this)">
-                                    <B>我已看过并接受《<a href="#">用户协议</a>》<SPAN id=agreement_notice >*</SPAN></B></LABEL></TD>
-                        </TR>
-                        <TR>
-                            <TD  ><INPUT type=hidden value=act_register name=act></TD>
-                            <TD  ><input type=submit value=确认注册&nbsp;&nbsp;&nbsp; name="Submit1" class="anniu" disabled></TD>
-                        </TR>
-                        <TR>
-                            <TD colSpan=2>&nbsp;</TD>
-                        </TR>
-                    </TBODY>
+                    <tbody>
+                        <tr>
+                            <td align=right width="15%"><strong>用户名:</strong></td>
+                            <td width="57%">
+                                <input id="username" onBlur="chkUserName(this)" name="username" />
+                                <span id="username_notice" >*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=right><strong>email:</strong></td>
+                            <td>
+                                <input id="email" onBlur="checkEmail(this)" name="email" />
+                                <span id=email_notice >*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=right><strong>密码:</strong></td>
+                            <td>
+                                <input id="password" onblur="check_password(this)"  onkeyup="checkIntensity(this.value)" type="password" name="password" />
+                                <span id='password_notice' >*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=right><strong>密码强度:</strong></td>
+                            <td>
+                                <table cellSpacing=0 cellPadding=1 width=145 border=0>
+                                    <tbody>
+                                        <tr align=middle>
+                                            <td id=pwd_lower width="33%">弱</td>
+                                            <td id=pwd_middle width="33%">中</td>
+                                            <td id=pwd_high width="33%">强</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=right><strong>确认密码:</strong></td>
+                            <td>
+                                <input id="conform_password" onblur="check_conform_password(this)" type="password" name="confirm_password" />
+                                <span id='conform_password_notice' >*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=right><strong>MSN:</strong></td>
+                            <td><input name='other[msn]' /></td>
+                        </tr>
+                        <tr>
+                            <td align=right><strong>QQ:</strong></td>
+                            <td><input name='other[qq]' /></td>
+                        </tr>
+                        <tr>
+                            <td align=right><strong>办公电话:</strong></td>
+                            <td><input name='other[office_phone]' /></td>
+                        </tr>
+                        <tr>
+                            <td align=right><strong>家庭电话:</strong></td>
+                            <td><input name='other[home_phone]' /></td>
+                        </tr>
+                        <tr>
+                            <td align=right><strong>手机:</strong></td>
+                            <td><input name='other[mobile_phone]' /></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><label>
+                                    <input type="checkbox"  value="1" name="agreement" onblur="check_agreement(this)">
+                                    <b>我已看过并接受《<a href="#">用户协议</a>》<span id='agreement_notice' >*</span></b></label></td>
+                        </tr>
+                        <tr>
+                            <td><input type='hidden' value='act_register' name='act' /></td>
+                            <td><input type='submit' value='确认注册&nbsp;&nbsp;&nbsp' name="Submit1" class="anniu" disabled /></td>
+                        </tr>
+                        <tr>
+                            <td colSpan=2>&nbsp;</td>
+                        </tr>
+                    </tbody>
                 </table>
             </form>
         </div>
