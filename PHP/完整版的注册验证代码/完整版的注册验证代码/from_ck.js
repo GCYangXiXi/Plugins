@@ -82,7 +82,6 @@ function checks(t) {
 function checkEmail(email)
 {
     if (chekemail(email.value) == false)
-
     {
         email.className = "FrameDivWarn";
         showInfo("email_notice", msg_email_format);
